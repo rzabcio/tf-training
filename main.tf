@@ -7,14 +7,36 @@ terraform {
   }
 }
 
+variable project { }
+variable region { }
+variable zone { }
+variable app_engine { }
+
 provider "google" {
   credentials = file("sa-terraform-key.json")
-
-  project = "training-vms-331821"
-  region  = "eu-central2"
-  zone    = "eu-central2-c"
+  project = var.project.name
+  region  = var.region
+  zone    = var.zone
 }
 
-resource "google_compute_network" "vpc_network" {
-  name = "terraform-network"
+variable "services" {
+  type = list(string)
+  default = ["appengine.googleapis.com", "cloudresourcemanager.googleapis.com"]
+}
+
+resource "google_project_service" "service" {
+  for_each = toset(var.services)
+  project = var.project.id
+  service = each.value
+  timeouts {
+    create = "30m"
+    update = "40m"
+  }
+  disable_on_destroy = true
+  disable_dependent_services = true
+}
+
+resource "google_app_engine_application" "frontend" {
+  project     = var.project.id
+  location_id = var.app_engine.location
 }

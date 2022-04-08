@@ -12,7 +12,7 @@ if [ -z $terraform_user ]; then
 else
 	echo "    user exists"
 fi
-gcloud projects add-iam-policy-binding $project --member=serviceAccount:$sa_email --role=roles/editor
+gcloud projects add-iam-policy-binding $project --member=serviceAccount:$sa_email --role=roles/owner
 
 if [ ! -f $KEY_FILE ]; then
 	gcloud iam service-accounts keys create $KEY_FILE --iam-account=$sa_email
