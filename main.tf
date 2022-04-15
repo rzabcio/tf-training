@@ -40,3 +40,9 @@ resource "google_app_engine_application" "frontend" {
   project     = var.project.id
   location_id = var.app_engine.location
 }
+
+resource "google_storage_bucket" "bucket" {
+  name     = "training-vms-static-content"
+  project  = var.project.id
+  location = var.app_engine.location
+}
