@@ -7,10 +7,11 @@ terraform {
   }
 }
 
+variable app_engine { }
+variable bucket { }
 variable project { }
 variable region { }
 variable zone { }
-variable app_engine { }
 
 provider "google" {
   credentials = file("sa-terraform-key.json")
@@ -42,7 +43,13 @@ resource "google_app_engine_application" "frontend" {
 }
 
 resource "google_storage_bucket" "bucket" {
-  name     = "training-vms-static-content"
+  name     = var.bucket.name
   project  = var.project.id
   location = var.app_engine.location
+}
+
+resource "google_storage_bucket_object" "frontend_object" {
+  name   = var.bucket.frontend_zip
+  bucket = google_storage_bucket.bucket.name
+  source = "go-frontend/go-frontend.zip"
 }
