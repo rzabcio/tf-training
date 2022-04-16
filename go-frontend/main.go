@@ -12,7 +12,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	fmt.Fprint(w, "Hello world")
+	fmt.Fprint(w, "Hello worldie!")
 }
 
 func main() {
@@ -20,8 +20,8 @@ func main() {
 	port := os.Getenv("PORT")
 
 	if port == "" {
-		port = "8080"
-		log.Printf("Defaulting to %s", port)
+		port = "80"
+		log.Printf("Defaulting listen to %s", port)
 	}
 
 	log.Printf("Listening on port %s", port)
