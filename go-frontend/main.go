@@ -12,7 +12,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	fmt.Fprint(w, "Hello worldie!")
+	fmt.Fprint(w, "Hello worldzie!")
 }
 
 func main() {
